@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from openai import OpenAI
 import json
+import random
 
 app = Flask(__name__)
 client = OpenAI()
@@ -23,13 +24,12 @@ def index():
             {"role": "user", "content": prompt}
         ]
     )
-
+    print(completion)# sometimes the format of the output is slightly different. printing helps debugging (improve prompt).
     response_content = json.loads(completion.choices[0].message.content)
-    print(response_content)
     # Extracting the topic and facts from the JSON response
     topic = response_content.get('topic', '')
     facts = response_content.get('facts', [])
-
+    random.shuffle(facts)
     return render_template('index.html', topic=topic, facts=facts)
 
 if __name__ == '__main__':

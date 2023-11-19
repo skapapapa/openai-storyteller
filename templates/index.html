@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI Storyteller</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        #response {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .factItem {
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: block; /* Display each block on a new line */
+            width: 100%;
+        }
+        .isTrueSection {
+            display: none;
+            margin-top: 5px;
+        }
+        .reloadButton {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            display: none; /* Initially hide the reload button */
+        }
+        #showAnswersButton {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Topic: {{ topic }}</h1>
+    <div id="response">
+        <p>Facts:</p>
+        {% for fact in facts %}
+            <div class="factItem">
+                {{ fact.content }} (<span class="isTrueSection" style="display: none;">{{ "True" if fact.isTrue else "Made up" }}</span>)
+            </div>
+        {% endfor %}
+    </div>
+    <button id="showAnswersButton" onclick="showAnswers()">Show Answers</button>
+    <button class="reloadButton" onclick="reloadPage()">Reload Page</button>
+
+    <script>
+        function showAnswers() {
+            var isTrueSections = document.getElementsByClassName('isTrueSection');
+            for (var i = 0; i < isTrueSections.length; i++) {
+                isTrueSections[i].style.display = 'inline';
+            }
+            document.getElementById('showAnswersButton').style.display = 'none';
+            document.getElementsByClassName('reloadButton')[0].style.display = 'inline';
+        }
+
+        function reloadPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>
